@@ -9,23 +9,24 @@
 # software components inside the image are under the respective
 # licenses chosen by their respective copyright holders.
 #
-FROM thomasweise/docker-texlive-full
+FROM thomasweise/docker-texlive-full:1.0
 MAINTAINER Thomas Weise <tweise@hfuu.edu.cn>
 
-RUN apt-get clean &&\
-    apt-get update &&\
-    apt-get autoclean -y &&\
-    apt-get autoremove -y &&\
+RUN echo "Initial update." &&\
+    apt-get clean &&\
     apt-get update &&\
 # install necessary components
+    echo "Install git, wget, and xz-utils." &&\
     apt-get install -f -y git \
                           wget \
                           xz-utils &&\
 # clean up all temporary files
+    echo "Final cleanup." &&\
     apt-get clean &&\
     apt-get autoclean -y &&\
     apt-get autoremove -y &&\
     apt-get clean &&\
     rm -rf /tmp/* /var/tmp/* &&\
     rm -rf /var/lib/apt/lists/* &&\
-    rm -f /etc/ssh/ssh_host_*
+    rm -f /etc/ssh/ssh_host_* &&\
+    echo "All done."
